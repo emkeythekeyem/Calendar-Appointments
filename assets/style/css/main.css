@@ -1,0 +1,133 @@
+:root {
+  --color-primary: #fcc2cc;
+  --color-primary-dark: #fa9dad;
+  --color-secondary: #ebf3f9; }
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(350px, 1fr));
+  grid-gap: 1rem;
+  padding-top: 60px; }
+  @media (max-width: 700px) {
+    .container {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); } }
+
+.calendar {
+  max-width: 100%; }
+  .calendar .month-header {
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 0.2fr 0.8fr 0.2fr;
+    grid-template-rows: 1fr;
+    justify-content: space-between;
+    align-content: center; }
+    .calendar .month-header > div {
+      display: grid;
+      justify-content: Center;
+      align-content: center; }
+      .calendar .month-header > div:first-child {
+        justify-content: flex-start; }
+      .calendar .month-header > div:last-child {
+        justify-content: flex-end; }
+  .calendar .month-available {
+    margin-bottom: 16px; }
+    .calendar .month-available > span {
+      font-weight: bold;
+      position: relative;
+      padding-left: 22px; }
+      .calendar .month-available > span:after {
+        position: absolute;
+        content: " ";
+        font-weight: bold;
+        text-align: center;
+        width: 16px;
+        height: 16px;
+        background: var(--color-primary);
+        border-radius: 50%;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%); }
+  .calendar .month-days-weekdaysname, .calendar .month-days-alldays {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(7, 1fr); }
+  .calendar .month-days-weekdaysname {
+    margin-bottom: 16px; }
+    .calendar .month-days-weekdaysname .dow {
+      color: #cccccc;
+      font-weight: bold;
+      text-align: center; }
+  .calendar .month-days-alldays {
+    text-align: center; }
+    .calendar .month-days-alldays .day {
+      font-weight: bold;
+      text-align: center;
+      width: 32px;
+      height: 32px;
+      border: 4px solid transparent;
+      border-radius: 50%; }
+    .calendar .month-days-alldays .active {
+      cursor: pointer;
+      background: var(--color-primary); }
+    .calendar .month-days-alldays .dummy-day {
+      color: #cccccc; }
+
+.appointment {
+  margin: 80px 0; }
+  @media (max-width: 700px) {
+    .appointment {
+      margin: 24px 0; } }
+  .appointment .available-times {
+    overflow: auto;
+    max-height: 220px;
+    min-height: 220px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(auto-fill, 80px); }
+    .appointment .available-times .time {
+      height: 60px;
+      margin: 4px 8px;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 8px;
+      font-weight: bolder;
+      background: var(--color-secondary);
+      color: black;
+      cursor: pointer; }
+      .appointment .available-times .time.active {
+        background: var(--color-primary);
+        color: black; }
+  .appointment .form {
+    margin-top: 8px; }
+
+.disable-scrollbars::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+  /* Chrome/Safari/Webkit */ }
+
+.disable-scrollbars {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */ }
+
+.hide {
+  display: none;
+  opacity: 0; }
+
+label {
+  font-weight: bold; }
+
+.btn {
+  font-weight: bold; }
+
+.btn-primary {
+  border: none;
+  background-color: var(--color-primary);
+  color: black; }
+  .btn-primary:hover {
+    color: black;
+    background-color: var(--color-primary-dark); }
+
+/*# sourceMappingURL=main.css.map */
