@@ -113,7 +113,7 @@ class Calendar {
             appointment.time.forEach(time => {
                 let tmpTimeEl = document.createElement("div");
                 tmpTimeEl.classList.add("time");
-                tmpTimeEl.innerHTML = time;
+                tmpTimeEl.innerHTML = time.replace(/:[^:]*$/, '');
                 tmpTimeEl.addEventListener("click", () => _this.handleSelectTime(tmpTimeEl));
                 availableTimesElement.appendChild(tmpTimeEl);
             });
