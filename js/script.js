@@ -160,7 +160,7 @@ class Calendar {
                     minute: "numeric"
                 };
                 // new Date(this.selectedAvailableDay.getAttribute("data-date") + " " + this.selectedAvailableTime.innerHTML).toLocaleDateString("it-IT", options);
-                let stringDate = this.selectedAvailableDay.getAttribute("data-date") + " " + this.selectedAvailableTime.innerHTML;
+                let stringDate = this.selectedAvailableDay.getAttribute("data-date") + "T" + this.selectedAvailableTime.innerHTML + ":00.000Z";
                 let longSelectedDate = new Date(stringDate)
                 document.querySelector(".selected-date").innerHTML = stringDate + "<br>" + longSelectedDate + "<br>" + new Date(stringDate).toLocaleDateString("it-IT", options) + "<br>" + new Date(longSelectedDate).toLocaleDateString("it-IT", options);
                 document.querySelector(".form-close").addEventListener("click", () => {
