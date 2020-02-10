@@ -160,8 +160,8 @@ class Calendar {
                     minute: "numeric"
                 };
                 //Date.parse(this.selectedAvailableDay.getAttribute("data-date") + " " + this.selectedAvailableTime.innerHTML)
-
-                document.querySelector(".selected-date").innerHTML = this.selectedAvailableDay.getAttribute("data-date");
+                let longSelectedDate = new Date(this.selectedAvailableDay.getAttribute("data-date"));
+                document.querySelector(".selected-date").innerHTML = longSelectedDate;
                 document.querySelector(".form-close").addEventListener("click", () => {
                     _this.closeAppointment();
                 });
