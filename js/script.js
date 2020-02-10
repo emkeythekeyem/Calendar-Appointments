@@ -26,11 +26,11 @@ let availableAppointmentDates = [{
     },
     {
         date: "2020-02-27",
-        time: ["13:00:00", "10:00:00", "09:00:00", "15:00:00"]
+        time: ["13:00:00", "10:00:00", "11:00:00", "15:00:00"]
     },
     {
         date: "2020-02-28",
-        time: ["13:00:00", "10:00:00", "09:00:00", "15:00:00"]
+        time: ["13:00:00", "10:00:00", "12:00:00", "15:00:00"]
     }
 ];
 
@@ -101,13 +101,16 @@ class Calendar {
         let timeAvailableElement = document.querySelector(".appointment");
 
         if (this.selectedAvailableDay != el) {
+            if (this.selectedAvailableDay)
+                this.selectedAvailableDay.classList.remove("selected")
+
             this.selectedAvailableDay = el;
             this.selectedAvailableDay.classList.add("selected")
             this.showTimeAvailable = true;
         } else {
             this.showTimeAvailable = !this.showTimeAvailable;
-            this.selectedAvailableDay = undefined;
             this.selectedAvailableDay.classList.remove("selected")
+            this.selectedAvailableDay = undefined;
             this.closeAppointment();
         }
 
@@ -151,18 +154,17 @@ class Calendar {
             let formElement = document.querySelector("form");
             if (el) {
                 formElement.classList.remove("hide");
-                var options = {
+                let options = {
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',
-                    day: 'numeric',
-                    hour: "numeric",
-                    minute: "numeric"
+                    day: 'numeric'
                 };
                 // new Date(this.selectedAvailableDay.getAttribute("data-date") + " " + this.selectedAvailableTime.innerHTML).toLocaleDateString("it-IT", options);
                 let stringDate = this.selectedAvailableDay.getAttribute("data-date") + "T" + this.selectedAvailableTime.innerHTML + ":00.000Z";
                 let longSelectedDate = new Date(stringDate)
-                document.querySelector(".selected-date").innerHTML = stringDate + "<br>" + longSelectedDate + "<br>" + new Date(stringDate).toLocaleDateString("it-IT", options) + "<br>" + new Date(longSelectedDate).toLocaleDateString("it-IT", options);
+                let finalDate = toTitleCase(new Date(longSelectedDate).toLocaleDateString("it-IT", options)) + ", alle ore " + this.selectedAvailableTime.innerHTML;
+                document.querySelector(".selected-date").innerHTML = finalDate
                 document.querySelector(".form-close").addEventListener("click", () => {
                     _this.closeAppointment();
                 });
@@ -310,8 +312,14 @@ class Calendar {
     }
 }
 
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+
 function pad(num, size = 2) {
-    var s = num + "";
+    let s = num + "";
     while (s.length < size) s = "0" + s;
     return s;
 }

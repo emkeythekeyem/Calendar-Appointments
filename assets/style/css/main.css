@@ -103,8 +103,7 @@
   .appointment .form {
     margin-top: 8px; }
     .appointment .form .selected-date {
-      color: var(--color-primary-dark);
-      text-transform: capitalize; }
+      color: var(--color-primary-dark); }
 
 .disable-scrollbars::-webkit-scrollbar {
   width: 0px;
