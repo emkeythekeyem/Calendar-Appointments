@@ -84,6 +84,9 @@
           cursor: pointer;
           background: var(--color-primary);
         }
+        .selected {
+          background: var(--color-primary-dark);
+        }
         .dummy-day {
           color: #cccccc;
         }
@@ -121,6 +124,10 @@
   }
   .form {
     margin-top: 8px;
+    .selected-date {
+      color: var(--color-primary-dark);
+      text-transform: capitalize;
+    }
   }
 }
 
@@ -144,12 +151,13 @@ label {
 .btn {
   font-weight: bold;
 }
-.btn-primary {
+.btn-custom {
   border: none;
   background-color: var(--color-primary);
   color: black;
 
-  &:hover {
+  &:hover,
+  &:active {
     color: black;
     background-color: var(--color-primary-dark);
   }

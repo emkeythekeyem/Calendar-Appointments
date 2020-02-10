@@ -1,6 +1,6 @@
 :root {
   --color-primary: #fcc2cc;
-  --color-primary-dark: #fa9dad;
+  --color-primary-dark: #f8788e;
   --color-secondary: #ebf3f9; }
 
 .container {
@@ -70,6 +70,8 @@
     .calendar .month-days-alldays .active {
       cursor: pointer;
       background: var(--color-primary); }
+    .calendar .month-days-alldays .selected {
+      background: var(--color-primary-dark); }
     .calendar .month-days-alldays .dummy-day {
       color: #cccccc; }
 
@@ -100,6 +102,9 @@
         color: black; }
   .appointment .form {
     margin-top: 8px; }
+    .appointment .form .selected-date {
+      color: var(--color-primary-dark);
+      text-transform: capitalize; }
 
 .disable-scrollbars::-webkit-scrollbar {
   width: 0px;
@@ -122,12 +127,10 @@ label {
 .btn {
   font-weight: bold; }
 
-.btn-primary {
+.btn-custom {
   border: none;
   background-color: var(--color-primary);
   color: black; }
-  .btn-primary:hover {
+  .btn-custom:hover, .btn-custom:active {
     color: black;
     background-color: var(--color-primary-dark); }
-
-/*# sourceMappingURL=main.css.map */

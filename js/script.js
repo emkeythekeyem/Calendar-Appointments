@@ -1,18 +1,36 @@
+// Array of objects that contains the available dates for appointment
 let availableAppointmentDates = [{
         date: "2020-01-28",
-        time: ["13:00:00", "10:00:00", "9:00:00", "15:00:00", "16:00:00", "17:00:00", "19:00:00", "2:00:00", "13:00:00", "10:00:00", "9:00:00", "15:00:00", "16:00:00", "17:00:00", "19:00:00", "2:00:00"]
+        time: [
+            "13:00:00",
+            "10:00:00",
+            "9:00:00",
+            "15:00:00",
+            "16:00:00",
+            "17:00:00",
+            "19:00:00",
+            "2:00:00",
+            "13:00:00",
+            "10:00:00",
+            "9:00:00",
+            "15:00:00",
+            "16:00:00",
+            "17:00:00",
+            "19:00:00",
+            "2:00:00"
+        ]
     },
     {
         date: "2020-02-26",
-        time: ["13:00:00", "10:00:00", "9:00:00", "15:00:00"]
+        time: ["13:00:00", "10:00:00", "09:00:00", "15:00:00"]
     },
     {
         date: "2020-02-27",
-        time: ["13:00:00", "10:00:00", "9:00:00", "15:00:00"]
+        time: ["13:00:00", "10:00:00", "09:00:00", "15:00:00"]
     },
     {
         date: "2020-02-28",
-        time: ["13:00:00", "10:00:00", "9:00:00", "15:00:00"]
+        time: ["13:00:00", "10:00:00", "09:00:00", "15:00:00"]
     }
 ];
 
@@ -40,12 +58,12 @@ class Calendar {
         this.showTimeAvailable = false;
         this.selectedAvailableDay = undefined;
         this.selectedAvailableTime = undefined;
+
         this.foundAppointmentsDays = [];
     }
 
     getDaysInMonth(month, year) {
         let date = new Date(year, month, 1);
-        let selectedMonth = date.getMonth();
         let days = [];
         while (date.getMonth() === month) {
             days.push(new Date(date));
@@ -67,7 +85,6 @@ class Calendar {
     }
 
     handleChangeMonth(arrow) {
-        console.log("arrow");
         switch (arrow) {
             case "prev":
                 this.selectedMonth--;
@@ -85,11 +102,13 @@ class Calendar {
 
         if (this.selectedAvailableDay != el) {
             this.selectedAvailableDay = el;
+            this.selectedAvailableDay.classList.add("selected")
             this.showTimeAvailable = true;
         } else {
             this.showTimeAvailable = !this.showTimeAvailable;
             this.selectedAvailableDay = undefined;
-            this.closeAppointment()
+            this.selectedAvailableDay.classList.remove("selected")
+            this.closeAppointment();
         }
 
         if (this.showTimeAvailable) {
@@ -97,11 +116,6 @@ class Calendar {
             let availableTimesElement = document.querySelector(".available-times");
 
             let appointment = _this.foundAppointmentsDays.find(appointment => {
-                console.log(
-                    new Date(appointment.date).getDate() +
-                    "==" +
-                    new Date(el.getAttribute("data-date")).getDate()
-                );
                 if (
                     new Date(appointment.date).getDate() ==
                     new Date(el.getAttribute("data-date")).getDate()
@@ -113,8 +127,10 @@ class Calendar {
             appointment.time.forEach(time => {
                 let tmpTimeEl = document.createElement("div");
                 tmpTimeEl.classList.add("time");
-                tmpTimeEl.innerHTML = time.replace(/:[^:]*$/, '');
-                tmpTimeEl.addEventListener("click", () => _this.handleSelectTime(tmpTimeEl));
+                tmpTimeEl.innerHTML = time.replace(/:[^:]*$/, "");
+                tmpTimeEl.addEventListener("click", () =>
+                    _this.handleSelectTime(tmpTimeEl)
+                );
                 availableTimesElement.appendChild(tmpTimeEl);
             });
         } else {
@@ -125,37 +141,43 @@ class Calendar {
     handleSelectTime(el) {
         let _this = this;
         if (this.selectedAvailableTime)
-            this.selectedAvailableTime.classList.remove("active")
+            this.selectedAvailableTime.classList.remove("active");
 
         if (this.selectedAvailableTime == el) {
-            _this.closeAppointment()
+            _this.closeAppointment();
         } else {
             this.selectedAvailableTime = el;
-            el.classList.add("active")
-            let formElement = document.querySelector("form")
+            el.classList.add("active");
+            let formElement = document.querySelector("form");
             if (el) {
-                formElement.classList.remove("hide")
+                formElement.classList.remove("hide");
+                var options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: "numeric",
+                    minute: "numeric"
+                };
+                let longSelectedDate = new Date(this.selectedAvailableDay.getAttribute("data-date") + " " + this.selectedAvailableTime.innerHTML).toLocaleDateString("it-IT", options);
+                document.querySelector(".selected-date").innerHTML = longSelectedDate;
                 document.querySelector(".form-close").addEventListener("click", () => {
-                    _this.closeAppointment()
-                })
+                    _this.closeAppointment();
+                });
             }
         }
-
-
     }
 
     closeAppointment() {
         if (this.selectedAvailableTime) {
-            this.selectedAvailableTime.classList.remove("active")
+            this.selectedAvailableTime.classList.remove("active");
             this.selectedAvailableTime = undefined;
         }
-        let formElement = document.querySelector("form")
-        formElement.classList.add("hide")
+        let formElement = document.querySelector("form");
+        formElement.classList.add("hide");
     }
 
-    setAppointment() {
-
-    }
+    setAppointment() {}
 
     buildYearCalendar(el, year) {
         this.parentElement = el;
@@ -176,7 +198,6 @@ class Calendar {
 
         let monthNode = _this.buildMonth(this.selectedMonth, year, opts);
         el.replaceWith(monthNode);
-
     }
 
     buildMonth(
@@ -200,14 +221,15 @@ class Calendar {
         );
         let monthNode = document.querySelector(".month-days");
         let titleNode = document.querySelector(".month-name h3");
-        let skipLength = daysInMonth[0].getDay() - 1;
+        let skipLength = daysInMonth[0].getDay() - 1 === -1 ? daysInMonth[0].getDay() + 6 : daysInMonth[0].getDay() - 1;
         let preLength = daysInMonth.length + skipLength;
+        console.log(preLength)
         let postLength = function () {
             if (preLength % 7 === 0) {
                 return 0;
             } else {
                 if (preLength < 35) {
-                    return 35 - preLength;
+                    return 42 - preLength;
                 } else {
                     return 42 - preLength;
                 }
@@ -219,7 +241,6 @@ class Calendar {
                 if (new Date(el.date).getMonth() == dtmMonth) return el;
             }
         );
-
 
         if (opts.showMonth) {
             titleNode.innerText =
@@ -244,7 +265,6 @@ class Calendar {
         let alldays = document.createElement("div");
         alldays.classList.add("month-days-alldays");
 
-
         for (let i = 0; i < skipLength; i++) {
             let dayNode = document.createElement("div");
             dayNode.classList.add("dummy-day", "day");
@@ -252,16 +272,21 @@ class Calendar {
             alldays.appendChild(dayNode);
         }
 
-
         daysInMonth.forEach(function (c, d) {
+            let cDate = new Date(c)
+            let day = pad(cDate.getDate());
+            let monthIndex = pad(cDate.getMonth() + 1);
+            let year = cDate.getFullYear();
+
+
             let dayNode = document.createElement("div");
             let availableClass = _this.foundAppointmentsDays.find(el => {
-                    return new Date(el.date).getDate() == d + 1;
+                    return new Date(el.date).getDate() == (d + 1);
                 }) ?
                 "active" :
                 "day";
             dayNode.classList.add("day", availableClass);
-            dayNode.setAttribute("data-date", c);
+            dayNode.setAttribute("data-date", year + "-" + monthIndex + "-" + day);
             dayNode.innerHTML = d + 1;
             let dow = new Date(c).getDay() - 1;
             if (dow === 0 || dow === 6) dayNode.classList.add("weekend");
@@ -271,10 +296,9 @@ class Calendar {
             alldays.appendChild(dayNode);
         });
 
-
         for (let j = 0; j < postLength(); j++) {
             let dayNode = document.createElement("div");
-            dayNode.classList.add("dummy-day");
+            dayNode.classList.add("dummy-day", "day");
             dayNode.innerText = j + 1;
             alldays.appendChild(dayNode);
         }
@@ -284,24 +308,42 @@ class Calendar {
     }
 }
 
+function pad(num, size = 2) {
+    var s = num + "";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
+let currentYear = new Date().getFullYear();
+let calendarize = new Calendar();
+
 window.addEventListener("DOMContentLoaded", event => {
     let nextMonthButton = document.querySelector(".month-next a");
     let prevMonthButton = document.querySelector(".month-prev a");
     let calendar = document.querySelector(".month-days");
-    let currentYear = new Date().getFullYear();
-    let calendarize = new Calendar();
+
     calendarize.buildYearCalendar(calendar, currentYear);
-    console.log(nextMonthButton);
     nextMonthButton.addEventListener("click", () =>
         calendarize.handleChangeMonth("next")
     );
     prevMonthButton.addEventListener("click", () =>
         calendarize.handleChangeMonth("prev")
     );
-
-
 });
 
-function handleSetAppointment() {
+function handleSetAppointment(e) {
+
+    let selectedAppointment = {
+        "date": calendarize.selectedAvailableDay.getAttribute("data-date"),
+        "time": calendarize.selectedAvailableTime.innerHTML
+    };
+
+    // valid check only if they exist
+    if (selectedAppointment.date && selectedAppointment.time) {
+        //// Make set to DATABASE
+
+        console.log(selectedAppointment)
+    }
+
     e.preventDefault();
 }

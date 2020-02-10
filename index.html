@@ -55,7 +55,12 @@
             <div class="available-times disable-scrollbars">
 
             </div>
-            <form class="form  hide" onsubmit="handleSetAppointment()">
+            <form class="form  hide" onsubmit="handleSetAppointment(event)">
+                <div class="form-group">
+                    <h4 class="selected-date">
+
+                    </h4>
+                </div>
                 <div>
                     <div class="form-group">
                         <label for="Name">
@@ -84,7 +89,7 @@
                     </div>-->
                     <div class="d-flex justify-content-end">
                         <button type="button" class="form-close  btn btn-light ">Chiudi</button>
-                        <button type="submit" class="ml-2 btn btn-primary">Prenota</button>
+                        <button type="submit" class="ml-2 btn btn-custom">Prenota</button>
                     </div>
                 </div>
             </form>
